@@ -15,6 +15,7 @@
 		14FD33B515406EF60032931D /* SolitaireAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD33B415406EF60032931D /* SolitaireAppDelegate.m */; };
 		14FD33B815406EF60032931D /* SolitaireViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FD33B715406EF60032931D /* SolitaireViewController.m */; };
 		14FD33BB15406EF60032931D /* SolitaireViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14FD33B915406EF60032931D /* SolitaireViewController.xib */; };
+		30E1487A1540D08A00466C76 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E148791540D08A00466C76 /* Card.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		14FD33B615406EF60032931D /* SolitaireViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SolitaireViewController.h; sourceTree = "<group>"; };
 		14FD33B715406EF60032931D /* SolitaireViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SolitaireViewController.m; sourceTree = "<group>"; };
 		14FD33BA15406EF60032931D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SolitaireViewController.xib; sourceTree = "<group>"; };
+		30E148781540D08A00466C76 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		30E148791540D08A00466C76 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +84,8 @@
 				14FD33B415406EF60032931D /* SolitaireAppDelegate.m */,
 				14FD33B615406EF60032931D /* SolitaireViewController.h */,
 				14FD33B715406EF60032931D /* SolitaireViewController.m */,
+				30E148781540D08A00466C76 /* Card.h */,
+				30E148791540D08A00466C76 /* Card.m */,
 				14FD33B915406EF60032931D /* SolitaireViewController.xib */,
 				14FD33AB15406EF60032931D /* Supporting Files */,
 			);
@@ -165,6 +170,7 @@
 				14FD33B115406EF60032931D /* main.m in Sources */,
 				14FD33B515406EF60032931D /* SolitaireAppDelegate.m in Sources */,
 				14FD33B815406EF60032931D /* SolitaireViewController.m in Sources */,
+				30E1487A1540D08A00466C76 /* Card.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +284,7 @@
 				14FD33C015406EF60032931D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
