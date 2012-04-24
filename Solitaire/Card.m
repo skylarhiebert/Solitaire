@@ -23,7 +23,7 @@
 }
 
 - (NSUInteger)hash {
-    return (_rank - 1)*4 + _suit; // Returns 0 to 51
+    return (_suit - 1)*13 + _rank; // Returns 0 to 51
 }
 
 - (BOOL)isEqual:(id)other {
@@ -97,17 +97,7 @@
         }
     }
     
-    return deck;
-    
-//    /* anArray is a NSMutableArray with some objects */
-//    srandom(time(NULL));
-//    NSUInteger count = [anArray count];
-//    for (NSUInteger i = 0; i < count; ++i) {
-//        int nElements = count - i;
-//        int n = (random() % nElements) + i;
-//        [anArray exchangeObjectAtIndex:i withObjectAtIndex:n];
-//    }
- 
+    return deck; 
 }
 
 @end

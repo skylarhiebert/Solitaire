@@ -14,6 +14,7 @@
 
 - (id)init;
 
++ (void)shuffleDeck:(NSMutableArray *)deck;
 - (void)freshGame;
 - (BOOL)gameWon;
 
@@ -30,16 +31,16 @@
 - (void)didDropCard:(Card *)card onFoundation:(int)i;
 
 - (BOOL)canDropCard:(Card *)card onTableau:(int)i;
-- (BOOL)didDropCard:(Card *)card onTableau:(int)i;
+- (void)didDropCard:(Card *)card onTableau:(int)i;
 
 - (BOOL)canDropFan:(NSArray *)cards onTableau:(int)i;
-- (BOOL)didDropFan:(NSArray *)cards onTableau:(int)i;
+- (void)didDropFan:(NSArray *)cards onTableau:(int)i;
 
 - (BOOL)canFlipCard:(Card *)card;
-- (BOOL)didFlipCard:(Card *)card;
+- (void)didFlipCard:(Card *)card;
 
 - (BOOL)canDealCard;
-- (void)didDealDCard;
+- (void)didDealCard;
 
 - (void)collectWasteCardsIntoStock;
 
