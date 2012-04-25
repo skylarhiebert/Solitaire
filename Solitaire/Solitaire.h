@@ -23,8 +23,6 @@
 - (NSArray *)foundation:(uint)i;
 - (NSArray *)tableau:(uint)i;
 
-- (BOOL)isCardFaceUp:(Card *)card;
-
 - (NSArray *)fanBeginningWithCard:(Card *)card;
 
 - (BOOL)canDropCard:(Card *)card onFoundation:(int)i;

@@ -14,7 +14,6 @@
     NSMutableArray *waste_;
     NSMutableArray *foundation_[4];
     NSMutableArray *tableau_[7];
-    NSMutableSet *faceUpCards;
 }
 
 - (id)init {
@@ -89,7 +88,7 @@
             [deck removeObjectAtIndex:0];
         }
         // Flip top card of Tableaux
-        [faceUpCards addObject:[tableau_[i] lastObject]];
+        ((Card *) [tableau_[i] lastObject]).faceUp = YES;
     }
     
     // Place remaining cards in deck to the stock
@@ -121,15 +120,11 @@
     return tableau_[i];
 }
 
-- (BOOL)isCardFaceUp:(Card *)card {
-    return [faceUpCards containsObject:card];
-}
-
 - (NSArray *)fanBeginningWithCard:(Card *)card {
     NSArray *tab;
     
     // Return nil if card not face up
-    if ([self isCardFaceUp:card]) 
+    if ([card faceUp]) 
         return nil;
     
     // Get the tableau that contains the card
@@ -145,10 +140,13 @@
 }
 
 - (BOOL)canDropCard:(Card *)card onFoundation:(int)i {
-    if ( [card rank] != ACE && [card hash] + 1 == [[tableau_[i] lastObject] hash])
+    // Empty Foundation && card == ace
+    if ( [card rank] == ACE && [foundation_[i] count] == 0 )
         return YES;
-    else 
-        return NO;
+    // Card 1 greater than foundation card && suits match
+    if ( [card suit] == [[foundation_[i] lastObject] suit] && [card hash] + 1 == [[foundation_[i] lastObject] hash] )
+        return YES;
+    return NO;
 }
 
 - (void)didDropCard:(Card *)card onFoundation:(int)i {
@@ -156,14 +154,17 @@
     [foundation_[i] addObject:card]; // Move to foundation
     [stack removeObject:card]; // Remove from stack
     if ([stack count] > 0)
-        [faceUpCards addObject:[stack lastObject]];
+        ((Card *) [stack lastObject]).faceUp = YES;
 }
 
 - (BOOL)canDropCard:(Card *)card onTableau:(int)i {
-    if ( [card isSameColor:[foundation_[i] lastObject]] ) 
-        return NO;
-    else
+    // Tableau is empty and card is a king
+    if ( [card rank] == KING && [tableau_[i] count] == 0 )
         return YES;
+    // Card is one less than last tableau card and suits do not match
+    if ( ![card isSameColor:[tableau_[i] lastObject]] && [card hash] - 1 == [[tableau_[i] lastObject] hash] ) 
+        return YES;
+    return NO;
 }
 
 - (void)didDropCard:(Card *)card onTableau:(int)i {
@@ -171,14 +172,11 @@
     [tableau_[i] addObject:card]; // Add card to tableau
     [stack removeObject:card]; // remove card from stack
     if ([stack count] > 0)
-        [faceUpCards addObject:[stack lastObject]]; // Flip last object (waste or tableau)
+        ((Card *) [stack lastObject]).faceUp = YES; // Flip last object (waste or tableau)
 }
 
 - (BOOL)canDropFan:(NSArray *)cards onTableau:(int)i {
-    if ( [[cards objectAtIndex:0] isSameColor:[tableau_[i] lastObject]] ) 
-        return NO;
-    else
-        return YES;
+    return [self canDropCard:[cards objectAtIndex:0] onTableau:i];
 }
 
 - (void)didDropFan:(NSArray *)cards onTableau:(int)i {
@@ -198,7 +196,7 @@
 }
 
 - (void)didFlipCard:(Card *)card {
-    [faceUpCards addObject:[[self tableauWithCard:card] lastObject]];
+    ((Card *) [[self tableauWithCard:card] lastObject]).faceUp = YES;
 }
 
 - (BOOL)canDealCard { 
@@ -207,14 +205,14 @@
 
 - (void)didDealCard { // Move top card from stock to waste
     // Move last waste card to facedown set
-    [faceUpCards removeObject:[waste_ lastObject]];
+     ((Card *) [waste_ lastObject]).faceUp = NO;
     
     // Move card from stock to waste
     [waste_ addObject:[stock_ objectAtIndex:0]];
     [stock_ removeObjectAtIndex:0];
     
     // Add new waste card to faceup set
-    [faceUpCards addObject:[waste_ lastObject]];
+     ((Card *) [waste_ lastObject]).faceUp = YES;
 }
 
 - (void)collectWasteCardsIntoStock {
@@ -222,7 +220,7 @@
         [NSException raise:@"Stock Not Empty" format:@"Stock pile is not empty"];
     } else {
         // Remove waste card from faceup set
-        [faceUpCards removeObject:[waste_ lastObject]];
+        ((Card *) [waste_ lastObject]).faceUp = NO;
         
         // Move all waste cards to stock
         [stock_ addObjectsFromArray:waste_];

@@ -12,6 +12,7 @@
 
 @synthesize rank = _rank;
 @synthesize suit = _suit;
+@synthesize faceUp = _faceUp;
 
 - (id)initWithRank:(uint)r Suit:(uint)s {
     self = [super init];
@@ -35,16 +36,16 @@
     NSString *r;
     switch (_suit) {
         case SPADES:
-            s = @"Spades";
+            s = @"spades";
             break;
         case CLUBS:
-            s = @"Clubs";
+            s = @"clubs";
             break;
         case DIAMONDS:
-            s = @"Diamonds";
+            s = @"diamonds";
             break;
         case HEARTS:
-            s = @"Hearts";
+            s = @"hearts";
             break;
         default:
             s = @"Unknown";
@@ -52,23 +53,24 @@
     }
     switch (_rank) {
         case ACE:
-            r = @"Ace";
+            r = @"a";
             break;
         case JACK:
-            r = @"Jack";
+            r = @"j";
             break;
         case QUEEN:
-            r = @"Queen";
+            r = @"q";
             break;
         case KING:
-            r = @"King";
+            r = @"k";
             break;
         default:
             r = [NSString stringWithFormat:@"%d", r];
             break;
     }
     
-    return [NSString stringWithFormat:@"%@ of %@", r, s];
+    // Used for debugging and imageFilename
+    return [NSString stringWithFormat:@"%@-%@-150", s, r];
     
 }
 
