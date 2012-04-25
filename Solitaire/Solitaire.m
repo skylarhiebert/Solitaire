@@ -12,8 +12,8 @@
 @implementation Solitaire {
     NSMutableArray *stock_;
     NSMutableArray *waste_;
-    NSMutableArray *foundation_[4];
-    NSMutableArray *tableau_[7];
+    NSMutableArray *foundation_[NUM_FOUNDATIONS];
+    NSMutableArray *tableau_[NUM_TABLEAUS];
 }
 
 - (id)init {
@@ -38,7 +38,7 @@
 }
 
 - (NSArray *)foundationWithCard:(Card *)card {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
         if ([foundation_[i] containsObject:card]) {
             return foundation_[i];
         }
@@ -47,7 +47,7 @@
 }
 
 - (NSArray *)tableauWithCard:(Card *)card {
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < NUM_TABLEAUS; i++) {
         if ([tableau_[i] containsObject:card]) {
             return tableau_[i];
         }
@@ -76,19 +76,21 @@
     // Initialize Stock, Waste, Foundation
     stock_ = [[NSMutableArray alloc] init];
     waste_ = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
         foundation_[i] = [[NSMutableArray alloc] init];
     }
     
     // Initialize Tableau and take cards from the deck to Tableau
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < NUM_TABLEAUS; i++) {
         tableau_[i] = [[NSMutableArray alloc] init];
         for (int j = 0; j <= i; j++) {
             [tableau_[i] addObject:[deck objectAtIndex:0]];
             [deck removeObjectAtIndex:0];
         }
         // Flip top card of Tableaux
-        ((Card *) [tableau_[i] lastObject]).faceUp = YES;
+        Card *c = [tableau_[i] lastObject];
+        c.faceUp = YES;
+        NSLog(@"%@ faceUp:%d", c.description, c.faceUp);
     }
     
     // Place remaining cards in deck to the stock
@@ -96,8 +98,8 @@
 }
 
 - (BOOL)gameWon {
-    for (int i = 0; i < 4; i++) {
-        if ([foundation_[i] count] < 13) {
+    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
+        if ([foundation_[i] count] < NUM_RANKS) {
             return NO;
         }
     }

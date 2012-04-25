@@ -17,6 +17,9 @@
 
 - (id)initWithFrame:(CGRect)frame andCard:(Card *)card;
 
+- (NSUInteger)hash;
+- (BOOL)isEqual:(id)other;
+
 + (UIImage *)backImage;
 
 @end

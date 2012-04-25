@@ -19,12 +19,13 @@
     if (self) {
         _rank = r;
         _suit = s;
+        _faceUp = NO;
     }
     return self;
 }
 
 - (NSUInteger)hash {
-    return (_suit - 1)*13 + _rank; // Returns 0 to 51
+    return (_suit - 1)*NUM_RANKS + _rank; // Returns 0 to 51
 }
 
 - (BOOL)isEqual:(id)other {
@@ -65,7 +66,7 @@
             r = @"k";
             break;
         default:
-            r = [NSString stringWithFormat:@"%d", r];
+            r = [NSString stringWithFormat:@"%d", _rank];
             break;
     }
     
@@ -92,7 +93,7 @@
 }
 
 + (NSArray *)deck {
-    NSMutableArray *deck;
+    NSMutableArray *deck = [[NSMutableArray alloc] init];
     for (int i = SPADES; i <= HEARTS; i++) {
         for (int j = ACE; j <= KING; j++) {
             [deck addObject:[[Card alloc] initWithRank:j Suit:i]];

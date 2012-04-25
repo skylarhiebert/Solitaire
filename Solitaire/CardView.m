@@ -23,9 +23,18 @@
     self = [super initWithFrame:frame];
     if (self) {
         _cardImage = [UIImage imageNamed:[card description]];
+        _card = card;
         self.opaque = NO;
     }
     return self;
+}
+
+- (NSUInteger)hash {
+    return [_card hash]; // Returns 0 to 51
+}
+
+- (BOOL)isEqual:(id)other {
+    return [_card isEqual:[other card]];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -56,6 +65,7 @@
     
 }
 
+// Static method for referencing the image on back of all cards
 + (UIImage *)backImage {
     static UIImage *backImage = nil;
     if (nil == backImage) {

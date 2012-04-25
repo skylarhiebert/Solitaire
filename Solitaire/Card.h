@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define NUM_SUITS 4
+#define NUM_RANKS 13
+
 enum {SPADES, CLUBS, DIAMONDS, HEARTS};
 enum {ACE=1, JACK=11, QUEEN=12, KING=13};
 

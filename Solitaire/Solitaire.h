@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Card.h"
 
-@class Card;
+#define NUM_TABLEAUS 7
+#define NUM_FOUNDATIONS 4
 
 @interface Solitaire : NSObject
 

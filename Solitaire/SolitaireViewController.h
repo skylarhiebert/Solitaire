@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SolitaireDelegate.h"
 
-@interface SolitaireViewController : UIViewController
+@class Solitaire;
+@class SolitaireView;
+
+@interface SolitaireViewController : UIViewController <SolitaireDelegate>
+
+@property (strong, nonatomic) Solitaire *game;
+
+@property (weak, nonatomic) IBOutlet SolitaireView *gameView;
+- (IBAction)newGameButton:(id)sender;
 
 @end
