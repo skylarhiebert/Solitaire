@@ -90,7 +90,6 @@
         // Flip top card of Tableaux
         Card *c = [tableau_[i] lastObject];
         c.faceUp = YES;
-        NSLog(@"%@ faceUp:%d", c.description, c.faceUp);
     }
     
     // Place remaining cards in deck to the stock

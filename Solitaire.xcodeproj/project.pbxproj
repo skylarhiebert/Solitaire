@@ -78,6 +78,7 @@
 		3038431415486E100044EA02 /* spades-j-150.png in Resources */ = {isa = PBXBuildFile; fileRef = 303842D615486E100044EA02 /* spades-j-150.png */; };
 		3038431515486E100044EA02 /* spades-k-150.png in Resources */ = {isa = PBXBuildFile; fileRef = 303842D715486E100044EA02 /* spades-k-150.png */; };
 		3038431615486E100044EA02 /* spades-q-150.png in Resources */ = {isa = PBXBuildFile; fileRef = 303842D815486E100044EA02 /* spades-q-150.png */; };
+		30691FB91549F68800911F4E /* empty-card-150.png in Resources */ = {isa = PBXBuildFile; fileRef = 30691FB81549F68800911F4E /* empty-card-150.png */; };
 		306A313815471C8D00A8AAF8 /* Solitaire.m in Sources */ = {isa = PBXBuildFile; fileRef = 306A313715471C8D00A8AAF8 /* Solitaire.m */; };
 		30B6A13F1548862D00534398 /* SolitaireView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B6A13E1548862D00534398 /* SolitaireView.m */; };
 		30E1487A1540D08A00466C76 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E148791540D08A00466C76 /* Card.m */; };
@@ -161,6 +162,7 @@
 		303842D615486E100044EA02 /* spades-j-150.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spades-j-150.png"; sourceTree = "<group>"; };
 		303842D715486E100044EA02 /* spades-k-150.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spades-k-150.png"; sourceTree = "<group>"; };
 		303842D815486E100044EA02 /* spades-q-150.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spades-q-150.png"; sourceTree = "<group>"; };
+		30691FB81549F68800911F4E /* empty-card-150.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "empty-card-150.png"; sourceTree = "<group>"; };
 		306A313615471C8D00A8AAF8 /* Solitaire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solitaire.h; sourceTree = "<group>"; };
 		306A313715471C8D00A8AAF8 /* Solitaire.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Solitaire.m; sourceTree = "<group>"; };
 		30B6A13D1548862D00534398 /* SolitaireView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SolitaireView.h; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 		3038429A15486E100044EA02 /* PokerCardImages */ = {
 			isa = PBXGroup;
 			children = (
+				30691FB81549F68800911F4E /* empty-card-150.png */,
 				3038429B15486E100044EA02 /* back-blue-150-1.png */,
 				3038429C15486E100044EA02 /* back-blue-150-2.png */,
 				3038429D15486E100044EA02 /* back-blue-150-3.png */,
@@ -430,6 +433,7 @@
 				3038431415486E100044EA02 /* spades-j-150.png in Resources */,
 				3038431515486E100044EA02 /* spades-k-150.png in Resources */,
 				3038431615486E100044EA02 /* spades-q-150.png in Resources */,
+				30691FB91549F68800911F4E /* empty-card-150.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -35,6 +35,11 @@
 - (NSString *)description {
     NSString *s;
     NSString *r;
+    
+    if (_rank ==  -1 || _suit == -1) {
+        return @"empty-card-150";
+    }
+    
     switch (_suit) {
         case SPADES:
             s = @"spades";

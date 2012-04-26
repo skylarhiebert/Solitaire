@@ -22,8 +22,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _cardImage = [UIImage imageNamed:[card description]];
-        _card = card;
+        if ( nil == card ) {
+            _cardImage = [CardView emptyImage];
+            [self setUserInteractionEnabled:NO];
+        } else {
+            _cardImage = [UIImage imageNamed:[card description]];
+            _card = card;
+        }
         self.opaque = NO;
     }
     return self;
@@ -34,12 +39,18 @@
 }
 
 - (BOOL)isEqual:(id)other {
+    
+    // Travis told me to do this
+    if ([other class] == [Card class] ) {
+        return [_card isEqual:other];
+    }
+    
     return [_card isEqual:[other card]];
 }
 
 - (void)drawRect:(CGRect)rect
 {
-    if (_card.faceUp)
+    if (nil == _card || _card.faceUp)
         [self.cardImage drawInRect:rect];
     else 
         [[CardView backImage] drawInRect:rect];
@@ -70,6 +81,16 @@
     static UIImage *backImage = nil;
     if (nil == backImage) {
         backImage = [UIImage imageNamed:@"back-blue-150-4"];
+    }
+    
+    return backImage;    
+}
+
+// Static method for referencing the image on back of all cards
++ (UIImage *)emptyImage {
+    static UIImage *backImage = nil;
+    if (nil == backImage) {
+        backImage = [UIImage imageNamed:@"empty-card-150"];
     }
     
     return backImage;    

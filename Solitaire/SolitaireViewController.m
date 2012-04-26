@@ -24,6 +24,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.game = [[Solitaire alloc] init];
+    
     [self.game freshGame];
     self.gameView.game = _game;
 }
@@ -42,7 +43,7 @@
 
 - (IBAction)newGameButton:(id)sender {
     [self.game freshGame];
-    [self.gameView setNeedsDisplay];
+    self.gameView.game = _game;
 }
 
 -(void)movedFan:(NSArray *)f toTableau:(uint)t {
