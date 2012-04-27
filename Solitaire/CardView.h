@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define ASPECT_RATIO_X 0.71591
+#define ASPECT_RATIO_Y 1.396825
+
 @class Card;
 
 @interface CardView : UIView

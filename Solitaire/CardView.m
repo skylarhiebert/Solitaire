@@ -86,7 +86,7 @@
     return backImage;    
 }
 
-// Static method for referencing the image on back of all cards
+// Static method for referencing the image of a blank card
 + (UIImage *)emptyImage {
     static UIImage *backImage = nil;
     if (nil == backImage) {

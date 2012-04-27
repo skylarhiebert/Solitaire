@@ -41,6 +41,11 @@
     return YES;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    NSLog(@"didRotate:");
+    [_gameView rotateLayout];
+}
+
 - (IBAction)newGameButton:(id)sender {
     [self.game freshGame];
     self.gameView.game = _game;

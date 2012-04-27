@@ -17,5 +17,6 @@
 
 - (void)iterateGameWithBlock:(void (^)(Card *c))block;
 - (void)addToSubViewForCard:(Card *)c;
+- (void)rotateLayout;
 
 @end
