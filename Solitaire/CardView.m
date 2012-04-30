@@ -7,6 +7,7 @@
 //
 
 #import "CardView.h"
+#import "SolitaireView.h"
 #import "Card.h"
 
 // Shamelessly copied from TouchFoo
@@ -24,7 +25,7 @@
     if (self) {
         if ( nil == card ) {
             _cardImage = [CardView emptyImage];
-            [self setUserInteractionEnabled:NO];
+//            [self setUserInteractionEnabled:NO];
         } else {
             _cardImage = [UIImage imageNamed:[card description]];
             _card = card;
@@ -52,28 +53,31 @@
 {
     if (nil == _card || _card.faceUp)
         [self.cardImage drawInRect:rect];
-    else 
+    else {
+        NSLog(@"drawingFaceUp:%@", _card);
         [[CardView backImage] drawInRect:rect];
+    }
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    touchStartPoint = [[touches anyObject] locationInView:self.superview];
-    startCenter = self.center;
+    NSLog(@"CARDVIEW touchesBegan: withEvent:");
+    SolitaireView *parentView = (SolitaireView *) [self superview];
+    [parentView touchesBegan:touches withEvent:event withCardView:self];
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    CGPoint touchPoint = [[touches anyObject] locationInView:self.superview]; 
-    CGPoint delta = CGPointMake(touchPoint.x - touchStartPoint.x, touchPoint.y - touchStartPoint.y);
-    CGPoint newCenter = CGPointMake(startCenter.x + delta.x, startCenter.y + delta.y);
-    self.center = newCenter;
+    SolitaireView *parentView = (SolitaireView *) [self superview];
+    [parentView touchesMoved:touches withEvent:event withCardView:self];
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+    SolitaireView *parentView = (SolitaireView *) [self superview];
+    [parentView touchesCancelled:touches withEvent:event withCardView:self];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+    SolitaireView *parentView = (SolitaireView *) [self superview];
+    [parentView touchesEnded:touches withEvent:event withCardView:self];
 }
 
 // Static method for referencing the image on back of all cards

@@ -11,7 +11,7 @@
 #import "CardView.h"
 
 #define MARGIN 20
-#define BUFFER_WIDTH 2
+#define BUFFER_WIDTH 4
 #define DIFF_TAB_FOUND (NUM_TABLEAUS - NUM_FOUNDATIONS)
 
 @implementation SolitaireView {
@@ -25,10 +25,16 @@
     CGFloat _w;
     CGFloat _h;
     CGFloat _d;
-    CGFloat _f;    
+    CGFloat _f;  
+    
+    CGPoint touchStartPoint;
+    CGPoint startCenter;
+    Card *touchedCard;
+    NSArray *touchedFan;
 }
 
 @synthesize game = _game;
+@synthesize delegate = _delegate;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -38,6 +44,38 @@
         
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    [self initializeView];
+//    Card *c = [[Card alloc] initWithRank:KING Suit:SPADES];
+//    c.faceUp = YES;
+//    
+//    CardView *cardView = [[CardView alloc] initWithFrame:CGRectMake(20, 20, 150, 214) andCard:c];
+//    
+//    [self addSubview:cardView];
+    
+    
+//    bottomCard = [UIImage imageNamed:@"empty-card-150"];
+}
+
+#pragma mark Initialization
+
+- (void)setGame:(Solitaire *)game {
+    _game = game;
+    cards = [[NSMutableDictionary alloc] init];
+    
+    for (UIView *view in [self subviews]) {
+        [view removeFromSuperview];
+    }
+
+    [self addBottomCardsToSubview];
+    
+    [self iterateGameWithBlock:^(Card *c) {
+        [self addToSubViewForCard:c];
+    }];
+    
+    [self computeCardLayout];
 }
 
 - (void)initializeView {
@@ -74,8 +112,10 @@
     }
     
     CGFloat foundationY = MARGIN;
+    CGFloat width = self.bounds.size.width;
     for (int i = 0; i < NUM_FOUNDATIONS; i++) {
-        CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + ((i+DIFF_TAB_FOUND)*_d);
+        //CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + ((i+DIFF_TAB_FOUND)*_d);
+        CGFloat foundationX = width - MARGIN - (i*(BUFFER_WIDTH)) - ((i+1)*_w);
         bottomFoundations[i] = [[CardView alloc] 
                                 initWithFrame:CGRectMake(foundationX, foundationY, _w, _h) 
                                 andCard:nil];
@@ -83,56 +123,7 @@
     }
 }
 
-- (void)computeBottomCardLayout {
-    CardView *cv;
-    
-    bottomStock.frame = CGRectMake(MARGIN, MARGIN, _w, _h);
-    
-    for (int i = 0; i < NUM_TABLEAUS; i++) {
-        cv = bottomTableaux[i]; 
-        CGFloat tableauX = MARGIN + (i*_w) + (i*_d);
-        CGFloat tableauY = MARGIN + _h + _s;
-        bottomTableaux[i].frame = CGRectMake(tableauX, tableauY, _w, _h);
-    }
-    
-    CGFloat foundationY = MARGIN;
-    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
-        CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + (i*_d);
-        bottomFoundations[i].frame = CGRectMake(foundationX, foundationY, _w, _h);
-    }
-}
-
-- (void)awakeFromNib {
-    [self initializeView];
-//    Card *c = [[Card alloc] initWithRank:KING Suit:SPADES];
-//    c.faceUp = YES;
-//    
-//    CardView *cardView = [[CardView alloc] initWithFrame:CGRectMake(20, 20, 150, 214) andCard:c];
-//    
-//    [self addSubview:cardView];
-    
-    
-//    bottomCard = [UIImage imageNamed:@"empty-card-150"];
-}
-
-
-
-- (void)setGame:(Solitaire *)game {
-    _game = game;
-    cards = [[NSMutableDictionary alloc] init];
-    
-    for (UIView *view in [self subviews]) {
-        [view removeFromSuperview];
-    }
-
-    [self addBottomCardsToSubview];
-    
-    [self iterateGameWithBlock:^(Card *c) {
-        [self addToSubViewForCard:c];
-    }];
-    
-    [self computeCardLayout];
-}
+#pragma mark Helper Functions
 
 // Thanks Travis!
 - (void)iterateGameWithBlock:(void (^)(Card *c))block { 
@@ -158,6 +149,14 @@
     }
 }
 
+#pragma mark Layout Functions
+
+- (void)rotateLayout {
+    [self computeSizes];
+    [self computeBottomCardLayout];
+    [self computeCardLayout];
+}
+
 - (void)computeSizes {
     //_w = ((self.bounds.size.width - 2*MARGIN) / 7.0) - _d*2;
     CGFloat height = self.bounds.size.height;
@@ -166,7 +165,7 @@
         _h = (height - 2*MARGIN) / 5.5; // Total height is 5.5 card heights
         _w = _h * ASPECT_RATIO_X;
     } else {
-        _w = ((width - 2*MARGIN) / 7.0) - BUFFER_WIDTH*2;
+        _w = ((width - 2*MARGIN) / 7.0) - BUFFER_WIDTH;
         _h = _w * ASPECT_RATIO_Y;
     }
 
@@ -176,10 +175,24 @@
     
 }
 
-- (void)rotateLayout {
-    [self computeSizes];
-    [self computeBottomCardLayout];
-    [self computeCardLayout];
+- (void)computeBottomCardLayout {
+    CardView *cv;
+    
+    bottomStock.frame = CGRectMake(MARGIN, MARGIN, _w, _h);
+    
+    for (int i = 0; i < NUM_TABLEAUS; i++) {
+        cv = bottomTableaux[i]; 
+        CGFloat tableauX = MARGIN + (i*_w) + (i*_d);
+        CGFloat tableauY = MARGIN + _h + _s;
+        bottomTableaux[i].frame = CGRectMake(tableauX, tableauY, _w, _h);
+    }
+    
+    CGFloat foundationY = MARGIN;
+    CGFloat width = self.bounds.size.width;
+    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
+        CGFloat foundationX = width - MARGIN - (i*(BUFFER_WIDTH)) - ((i+1)*_w);
+        bottomFoundations[i].frame = CGRectMake(foundationX, foundationY, _w, _h);
+    }
 }
 
 - (void)computeCardLayout {
@@ -190,11 +203,12 @@
         cv.frame = CGRectMake(MARGIN, MARGIN, _w, _h);
     }
     
-    CGFloat wasteX = MARGIN + _w + _d;
+    CGFloat wasteX = MARGIN + _w + BUFFER_WIDTH;
     CGFloat wasteY = MARGIN;
     for (Card *c in _game.waste) {
         cv = [cards objectForKey:c];
         cv.frame = CGRectMake(wasteX, wasteY, _w, _h);
+        [self bringSubviewToFront:cv];
     }
     
     for (int i = 0; i < NUM_TABLEAUS; i++) {
@@ -205,6 +219,7 @@
             tableauY = MARGIN + _h + _s + j*_f;
             cv = [cards objectForKey:c];
             cv.frame = CGRectMake(tableauX, tableauY, _w, _h); 
+            [self bringSubviewToFront:cv];
         }
     }
     
@@ -214,9 +229,128 @@
         for (Card *c in [_game foundation:i]) {
             cv = [cards objectForKey:c];
             cv.frame = CGRectMake(foundationX, foundationY, _w, _h);
+            [self bringSubviewToFront:cv];
         }
     }
 }
+
+#pragma mark Touch Events
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView {
+    if ([_game.stock containsObject:[cardView card]] || cardView == bottomStock ) {
+        [_delegate moveStockToWaste];
+        [[cards objectForKey:[_game.waste lastObject]] setNeedsDisplay]; // Redraw new waste card
+        [[cards objectForKey:[_game.stock lastObject]] setNeedsDisplay]; // Redraw top of Stock
+        [self computeCardLayout];
+    } 
+    touchStartPoint = [[touches anyObject] locationInView:self];
+    startCenter = cardView.center;
+    
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView {
+    // Pick up the fan and move it
+    CGPoint touchPoint = [[touches anyObject] locationInView:self]; 
+    CGPoint delta = CGPointMake(touchPoint.x - touchStartPoint.x, touchPoint.y - touchStartPoint.y);
+    CGPoint newCenter = CGPointMake(startCenter.x + delta.x, startCenter.y + delta.y);
+    
+    NSArray *fan = [_game fanBeginningWithCard:[cardView card]];
+    // Card is on the waste
+    if (nil == fan && [_game.waste containsObject:[cardView card]]) {
+        cardView.center = newCenter;
+    } else {    // Card is in a fan        
+        for (int i = 0; i < [fan count]; i++) {
+            CardView *cv = [cards objectForKey:[fan objectAtIndex:i]];
+            cv.center = CGPointMake(newCenter.x, newCenter.y + (i * _f));
+            [self bringSubviewToFront:cv];
+        }
+    }
+}
+
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView  {
+    
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView  {
+    NSLog(@"touchesEnded: withEvent: withCardView:");
+//    CGPoint touchPoint = [[touches anyObject] locationInView:self];
+    Card *c = [cardView card];
+    NSArray *fan = [_game fanBeginningWithCard:c];
+    
+    CGFloat fanHeight = _h + [fan count] * (_f - 1);
+    CGRect fanRect = CGRectMake(cardView.frame.origin.x, cardView.frame.origin.y, _w, fanHeight);
+    
+    if ([fan count] == 1 && cardView.center.y < MARGIN + _h + (_s/2)) { // Check Foundation
+        for (int i = 0; i < NUM_FOUNDATIONS; i++) { // Iterate through foundations
+            CardView *cvFound = bottomFoundations[i];
+            if ( CGRectIntersectsRect(cvFound.frame, fanRect) ) {// See if foundation intersects with card
+                NSLog(@"movedToFound:%@", c);
+                [_delegate movedCard:[cardView card] toFoundation:i]; // Move card
+            }
+        }
+    } else { // May intersect with tableau
+        for (int i = 0; i < NUM_TABLEAUS; i++) {
+            NSArray *tab = [_game tableau:i];
+            CardView *cvTab = [cards objectForKey:[tab lastObject]];
+            if ( cvTab == [cards objectForKey:[fan lastObject]] ) continue; // If touched CardView == lastCardView in Tableau
+            
+            CGFloat tabHeight = _h + [tab count] * (_f - 1);
+            CGRect tabRect = CGRectMake(cvTab.frame.origin.x, cvTab.frame.origin.y, _w, tabHeight);
+            if ( CGRectIntersectsRect(tabRect, fanRect) ) {
+                NSLog(@"movedFan:%@", c);
+                [_delegate movedFan:fan toTableau:i];
+            }
+        }
+    }
+
+            
+//            for (int j = 0; j < [tab count]; j++) {
+//                CardView *cvTab = [cards objectForKey:[tab objectAtIndex:j]];
+//                for (Card *c2 in fan) {
+//                    CardView *cvFan = [cards objectForKey:c2];
+//                    if (cvTab == cvFan) continue; // Don't check self tab
+//                    if (CGRectIntersectsRect(cvTab.frame, fanRect)) {
+//                        
+//                    }
+//                }
+//            }
+
+    
+    // Fan touches Tableau
+//    if (cardView.center.y > MARGIN + _h + (_s/2)) { // In Foundations
+//        for (int i = 0; i < NUM_FOUNDATIONS; i++) {
+//            NSArray *tab = [_game tableau:i];
+//            for (int j = 0; j < [tab count]; j++) {
+//                CardView *cvTab = [cards objectForKey:[tab objectAtIndex:j]];
+//                for (Card *c2 in fan) {
+//                    CardView *cvFan = [cards objectForKey:c2];
+//                    if (cvTab == cvFan) continue; // Don't check self tab
+//                    if (CGRectIntersectsRect(cvTab.frame, cvFan.frame)) {
+//                        [_delegate movedFan:fan toTableau:i];
+//                    }
+//                }
+//            }
+//        }
+//    } else {
+//        for (int i = 0; i < NUM_TABLEAUS; i++) {
+//            NSArray *tab = [_game tableau:i];
+//            for (int j = 0; j < [tab count]; j++) {
+//                CardView *cvTab = [cards objectForKey:[tab objectAtIndex:j]];
+//                for (Card *c2 in fan) {
+//                    CardView *cvFan = [cards objectForKey:c2];
+//                    if (cvTab == cvFan) continue; // Don't check self tab
+//                    if (CGRectIntersectsRect(cvTab.frame, cvFan.frame)) {
+//                        [_delegate movedFan:fan toTableau:i];
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
+
+    [self computeCardLayout];
+}
+
 
 //- (void)layoutSubviews {
 //    

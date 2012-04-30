@@ -10,8 +10,9 @@
 #import "Card.h"
 
 @protocol SolitaireDelegate <NSObject>
-
--(void)movedFan:(NSArray *)f toTableau:(uint)t;
--(void)movedCard:(Card *)c toFoundation:(uint)f;
+ 
+- (void)movedFan:(NSArray *)f toTableau:(uint)t;
+- (void)movedCard:(Card *)c toFoundation:(uint)f;
+- (void)moveStockToWaste;
 
 @end

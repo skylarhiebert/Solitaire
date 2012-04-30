@@ -122,24 +122,22 @@
 }
 
 - (NSArray *)fanBeginningWithCard:(Card *)card {
-    NSArray *tab;
+    NSArray *fan = nil;
+    NSArray *tab = [self stackWithCard:card];;
     
-    // Return nil if card not face up
-    if ([card faceUp]) 
-        return nil;
-    
+    // Return nil if card not face up 
     // Get the tableau that contains the card
-    tab = [self tableauWithCard:card];
-    if (nil != tab) {
+    if (card.faceUp && nil != tab) {
         int index = [tab indexOfObject:card]; // Get index
         NSRange range = NSMakeRange(index, [tab count] - index); // Get Range from index to end of array
         return [tab subarrayWithRange:range]; // Return array
     }
     
     // No tableau with card
-    return nil;
+    return fan;
 }
 
+// NEED TO FIX THIS FUNCTION!!!!
 - (BOOL)canDropCard:(Card *)card onFoundation:(int)i {
     // Empty Foundation && card == ace
     if ( [card rank] == ACE && [foundation_[i] count] == 0 )
@@ -163,6 +161,7 @@
     if ( [card rank] == KING && [tableau_[i] count] == 0 )
         return YES;
     // Card is one less than last tableau card and suits do not match
+    NSLog(@"card hash:%i tabHash:%i", [card hash], [[tableau_[i] lastObject] hash]);
     if ( ![card isSameColor:[tableau_[i] lastObject]] && [card hash] - 1 == [[tableau_[i] lastObject] hash] ) 
         return YES;
     return NO;
@@ -206,14 +205,16 @@
 
 - (void)didDealCard { // Move top card from stock to waste
     // Move last waste card to facedown set
-     ((Card *) [waste_ lastObject]).faceUp = NO;
+//     ((Card *) [waste_ lastObject]).faceUp = NO;
     
     // Move card from stock to waste
-    [waste_ addObject:[stock_ objectAtIndex:0]];
-    [stock_ removeObjectAtIndex:0];
+    Card *c = [stock_ objectAtIndex:0];
+    c.faceUp = YES;
+    [waste_ addObject:c];
+    [stock_ removeObject:c];
     
     // Add new waste card to faceup set
-     ((Card *) [waste_ lastObject]).faceUp = YES;
+//     ((Card *) [waste_ lastObject]).faceUp = YES;
 }
 
 - (void)collectWasteCardsIntoStock {

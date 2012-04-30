@@ -26,7 +26,9 @@
     self.game = [[Solitaire alloc] init];
     
     [self.game freshGame];
+    self.gameView.delegate = self;
     self.gameView.game = _game;
+    [self moveStockToWaste];
 }
 
 - (void)viewDidUnload
@@ -52,13 +54,23 @@
 }
 
 -(void)movedFan:(NSArray *)f toTableau:(uint)t {
-    if ([_game canDropFan:f onTableau:t])
+    NSLog(@"movedFan:%@ toTableau:%i", f, t);
+    if ([_game canDropFan:f onTableau:t]) {
+        NSLog(@"canDropFan");
         [_game didDropFan:f onTableau:t];
+    }
 }
 
 -(void)movedCard:(Card *)c toFoundation:(uint)f {
     if ([_game canDropCard:c onFoundation:f])
         [_game didDropCard:c onFoundation:f];
+}
+
+- (void)moveStockToWaste {
+    if ([_game canDealCard]) 
+        [_game didDealCard];
+    else 
+        [_game collectWasteCardsIntoStock];
 }
 
 @end
