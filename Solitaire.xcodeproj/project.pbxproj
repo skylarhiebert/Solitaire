@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		144738231551A52E00E68743 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144738221551A52E00E68743 /* QuartzCore.framework */; };
+		144738261551AD0800E68743 /* Spade_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 144738251551AD0800E68743 /* Spade_144.png */; };
+		144738281551AD0D00E68743 /* Spade_72.png in Resources */ = {isa = PBXBuildFile; fileRef = 144738271551AD0D00E68743 /* Spade_72.png */; };
+		1447382A1551AD3400E68743 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 144738291551AD3400E68743 /* Default-Portrait~ipad.png */; };
+		1447382C1551AE0900E68743 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 1447382B1551AE0900E68743 /* Default-Portrait@2x~ipad.png */; };
+		1447382E1551AE6000E68743 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 1447382D1551AE6000E68743 /* Default-Landscape~ipad.png */; };
+		144738301551AEA700E68743 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 1447382F1551AEA700E68743 /* Default-Landscape@2x~ipad.png */; };
 		14FD33A515406EF60032931D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FD33A415406EF60032931D /* UIKit.framework */; };
 		14FD33A715406EF60032931D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FD33A615406EF60032931D /* Foundation.framework */; };
 		14FD33A915406EF60032931D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FD33A815406EF60032931D /* CoreGraphics.framework */; };
@@ -85,6 +92,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		144738221551A52E00E68743 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		144738251551AD0800E68743 /* Spade_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spade_144.png; sourceTree = "<group>"; };
+		144738271551AD0D00E68743 /* Spade_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spade_72.png; sourceTree = "<group>"; };
+		144738291551AD3400E68743 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		1447382B1551AE0900E68743 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		1447382D1551AE6000E68743 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		1447382F1551AEA700E68743 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		14FD33A015406EF60032931D /* Solitaire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Solitaire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FD33A415406EF60032931D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		14FD33A615406EF60032931D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -177,6 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				144738231551A52E00E68743 /* QuartzCore.framework in Frameworks */,
 				14FD33A515406EF60032931D /* UIKit.framework in Frameworks */,
 				14FD33A715406EF60032931D /* Foundation.framework in Frameworks */,
 				14FD33A915406EF60032931D /* CoreGraphics.framework in Frameworks */,
@@ -189,6 +204,13 @@
 		14FD339515406EF60032931D = {
 			isa = PBXGroup;
 			children = (
+				1447382F1551AEA700E68743 /* Default-Landscape@2x~ipad.png */,
+				1447382D1551AE6000E68743 /* Default-Landscape~ipad.png */,
+				1447382B1551AE0900E68743 /* Default-Portrait@2x~ipad.png */,
+				144738291551AD3400E68743 /* Default-Portrait~ipad.png */,
+				144738271551AD0D00E68743 /* Spade_72.png */,
+				144738251551AD0800E68743 /* Spade_144.png */,
+				144738221551A52E00E68743 /* QuartzCore.framework */,
 				14FD33AA15406EF60032931D /* Solitaire */,
 				14FD33A315406EF60032931D /* Frameworks */,
 				14FD33A115406EF60032931D /* Products */,
@@ -434,6 +456,12 @@
 				3038431515486E100044EA02 /* spades-k-150.png in Resources */,
 				3038431615486E100044EA02 /* spades-q-150.png in Resources */,
 				30691FB91549F68800911F4E /* empty-card-150.png in Resources */,
+				144738261551AD0800E68743 /* Spade_144.png in Resources */,
+				144738281551AD0D00E68743 /* Spade_72.png in Resources */,
+				1447382A1551AD3400E68743 /* Default-Portrait~ipad.png in Resources */,
+				1447382C1551AE0900E68743 /* Default-Portrait@2x~ipad.png in Resources */,
+				1447382E1551AE6000E68743 /* Default-Landscape~ipad.png in Resources */,
+				144738301551AEA700E68743 /* Default-Landscape@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +558,7 @@
 				GCC_PREFIX_HEADER = "Solitaire/Solitaire-Prefix.pch";
 				INFOPLIST_FILE = "Solitaire/Solitaire-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -541,6 +570,7 @@
 				GCC_PREFIX_HEADER = "Solitaire/Solitaire-Prefix.pch";
 				INFOPLIST_FILE = "Solitaire/Solitaire-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

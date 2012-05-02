@@ -201,18 +201,12 @@
     return [stock_ count] > 0;
 }
 
-- (void)didDealCard { // Move top card from stock to waste
-    // Move last waste card to facedown set
-//     ((Card *) [waste_ lastObject]).faceUp = NO;
-    
+- (void)didDealCard { // Move top card from stock to waste  
     // Move card from stock to waste
     Card *c = [stock_ objectAtIndex:0];
     c.faceUp = YES;
     [waste_ addObject:c];
     [stock_ removeObject:c];
-    
-    // Add new waste card to faceup set
-//     ((Card *) [waste_ lastObject]).faceUp = YES;
 }
 
 - (void)collectWasteCardsIntoStock {

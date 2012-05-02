@@ -28,7 +28,6 @@
     [self.game freshGame];
     self.gameView.delegate = self;
     self.gameView.game = _game;
-    [self moveStockToWaste];
 }
 
 - (void)viewDidUnload

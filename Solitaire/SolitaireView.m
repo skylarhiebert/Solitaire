@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 skylarhiebert.com. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "SolitaireView.h"
 #import "Solitaire.h"
 #import "CardView.h"
@@ -176,63 +177,66 @@
 }
 
 - (void)computeBottomCardLayout {
-    CardView *cv;
-    
-    bottomStock.frame = CGRectMake(MARGIN, MARGIN, _w, _h);
-    
-    for (int i = 0; i < NUM_TABLEAUS; i++) {
-        cv = bottomTableaux[i]; 
-        CGFloat tableauX = MARGIN + (i*_w) + (i*_d);
-        CGFloat tableauY = MARGIN + _h + _s;
-        bottomTableaux[i].frame = CGRectMake(tableauX, tableauY, _w, _h);
-    }
-    
-    CGFloat foundationY = MARGIN;
-    CGFloat width = self.bounds.size.width;
-    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
-        CGFloat foundationX = width - MARGIN - (i*(BUFFER_WIDTH)) - ((i+1)*_w);
-        bottomFoundations[i].frame = CGRectMake(foundationX, foundationY, _w, _h);
-    }
+    [UIView animateWithDuration:0.2 animations:^{
+        CardView *cv;
+        
+        bottomStock.frame = CGRectMake(MARGIN, MARGIN, _w, _h);
+        
+        for (int i = 0; i < NUM_TABLEAUS; i++) {
+            cv = bottomTableaux[i]; 
+            CGFloat tableauX = MARGIN + (i*_w) + (i*_d);
+            CGFloat tableauY = MARGIN + _h + _s;
+            bottomTableaux[i].frame = CGRectMake(tableauX, tableauY, _w, _h);
+        }
+        
+        CGFloat foundationY = MARGIN;
+        CGFloat width = self.bounds.size.width;
+        for (int i = 0; i < NUM_FOUNDATIONS; i++) {
+            CGFloat foundationX = width - MARGIN - (i*(BUFFER_WIDTH)) - ((i+1)*_w);
+            bottomFoundations[i].frame = CGRectMake(foundationX, foundationY, _w, _h);
+        }
+    }];
 }
 
 - (void)computeCardLayout {
-    CardView *cv;
-    
-    for (Card *c in _game.stock) {
-        cv = [cards objectForKey:c];
-        cv.frame = CGRectMake(MARGIN, MARGIN, _w, _h);
-    }
-    
-    CGFloat wasteX = MARGIN + _w + BUFFER_WIDTH;
-    CGFloat wasteY = MARGIN;
-    for (Card *c in _game.waste) {
-        cv = [cards objectForKey:c];
-        cv.frame = CGRectMake(wasteX, wasteY, _w, _h);
-        [self bringSubviewToFront:cv];
-    }
-    
-    for (int i = 0; i < NUM_TABLEAUS; i++) {
-        CGFloat tableauX = MARGIN + (i*_w) + (i*_d);
-        CGFloat tableauY = MARGIN + _h + _s;
-        for (int j = 0; j < [[_game tableau:i] count]; j++) {
-            Card *c = [[_game tableau:i] objectAtIndex:j];
-            tableauY = MARGIN + _h + _s + j*_f;
+    [UIView animateWithDuration:0.2 animations:^{
+        CardView *cv;
+        for (Card *c in _game.stock) {
             cv = [cards objectForKey:c];
-            cv.frame = CGRectMake(tableauX, tableauY, _w, _h); 
+            cv.frame = CGRectMake(MARGIN, MARGIN, _w, _h);
+        }
+        
+        CGFloat wasteX = MARGIN + _w + BUFFER_WIDTH;
+        CGFloat wasteY = MARGIN;
+        for (Card *c in _game.waste) {
+            cv = [cards objectForKey:c];
+            cv.frame = CGRectMake(wasteX, wasteY, _w, _h);
             [self bringSubviewToFront:cv];
         }
-    }
-    
-    CGFloat foundationY = MARGIN;
-    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
-//        CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + ((i+DIFF_TAB_FOUND+2)*_d);
-        CGFloat foundationX = self.bounds.size.width - MARGIN - (i*(BUFFER_WIDTH)) - ((i+1)*_w);
-        for (Card *c in [_game foundation:i]) {
-            cv = [cards objectForKey:c];
-            cv.frame = CGRectMake(foundationX, foundationY, _w, _h);
-            [self bringSubviewToFront:cv];
+        
+        for (int i = 0; i < NUM_TABLEAUS; i++) {
+            CGFloat tableauX = MARGIN + (i*_w) + (i*_d);
+            CGFloat tableauY = MARGIN + _h + _s;
+            for (int j = 0; j < [[_game tableau:i] count]; j++) {
+                Card *c = [[_game tableau:i] objectAtIndex:j];
+                tableauY = MARGIN + _h + _s + j*_f;
+                cv = [cards objectForKey:c];
+                cv.frame = CGRectMake(tableauX, tableauY, _w, _h); 
+                [self bringSubviewToFront:cv];
+            }
         }
-    }
+        
+        CGFloat foundationY = MARGIN;
+        for (int i = 0; i < NUM_FOUNDATIONS; i++) {
+            //        CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + ((i+DIFF_TAB_FOUND+2)*_d);
+            CGFloat foundationX = self.bounds.size.width - MARGIN - (i*(BUFFER_WIDTH)) - ((i+1)*_w);
+            for (Card *c in [_game foundation:i]) {
+                cv = [cards objectForKey:c];
+                cv.frame = CGRectMake(foundationX, foundationY, _w, _h);
+                [self bringSubviewToFront:cv];
+            }
+        }
+    }];
 }
 
 #pragma mark Touch Events
@@ -240,13 +244,6 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView {
     touchStartPoint = [[touches anyObject] locationInView:self];
     startCenter = cardView.center;
-    
-    Card *c = [cardView card];
-    if ([_game.stock containsObject:c] || cardView == bottomStock ) {
-        [_delegate moveStockToWaste];
-        [[cards objectForKey:[_game.waste lastObject]] setNeedsDisplay]; // Redraw new waste card
-        [[cards objectForKey:[_game.stock lastObject]] setNeedsDisplay]; // Redraw top of Stock
-    }    
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView {
@@ -276,7 +273,15 @@
 //    CGPoint touchPoint = [[touches anyObject] locationInView:self];
     Card *c = [cardView card];
     
-    if (!c.faceUp) {
+    if ([_game.stock containsObject:c] ) {
+        [_delegate moveStockToWaste];
+        [[cards objectForKey:[_game.stock lastObject]] setNeedsDisplay]; // Redraw top of Stock
+        [[cards objectForKey:[_game.waste lastObject]] setNeedsDisplay]; // Redraw new waste card
+    } else if ( cardView == bottomStock ) {
+        [_delegate moveStockToWaste];
+        [[cards objectForKey:[_game.waste lastObject]] setNeedsDisplay]; // Redraw new waste card
+        [[cards objectForKey:[_game.stock lastObject]] setNeedsDisplay]; // Redraw top of Stock
+    } else if (!c.faceUp) {
         if ([_delegate flipCard:c]) {
             [[cards objectForKey:c] setNeedsDisplay];
             return; // Break early 'cause we're just flipping
@@ -309,52 +314,7 @@
                 [_delegate movedFan:fan toTableau:i];
             }
         }
-    }
-
-            
-//            for (int j = 0; j < [tab count]; j++) {
-//                CardView *cvTab = [cards objectForKey:[tab objectAtIndex:j]];
-//                for (Card *c2 in fan) {
-//                    CardView *cvFan = [cards objectForKey:c2];
-//                    if (cvTab == cvFan) continue; // Don't check self tab
-//                    if (CGRectIntersectsRect(cvTab.frame, fanRect)) {
-//                        
-//                    }
-//                }
-//            }
-
-    
-    // Fan touches Tableau
-//    if (cardView.center.y > MARGIN + _h + (_s/2)) { // In Foundations
-//        for (int i = 0; i < NUM_FOUNDATIONS; i++) {
-//            NSArray *tab = [_game tableau:i];
-//            for (int j = 0; j < [tab count]; j++) {
-//                CardView *cvTab = [cards objectForKey:[tab objectAtIndex:j]];
-//                for (Card *c2 in fan) {
-//                    CardView *cvFan = [cards objectForKey:c2];
-//                    if (cvTab == cvFan) continue; // Don't check self tab
-//                    if (CGRectIntersectsRect(cvTab.frame, cvFan.frame)) {
-//                        [_delegate movedFan:fan toTableau:i];
-//                    }
-//                }
-//            }
-//        }
-//    } else {
-//        for (int i = 0; i < NUM_TABLEAUS; i++) {
-//            NSArray *tab = [_game tableau:i];
-//            for (int j = 0; j < [tab count]; j++) {
-//                CardView *cvTab = [cards objectForKey:[tab objectAtIndex:j]];
-//                for (Card *c2 in fan) {
-//                    CardView *cvFan = [cards objectForKey:c2];
-//                    if (cvTab == cvFan) continue; // Don't check self tab
-//                    if (CGRectIntersectsRect(cvTab.frame, cvFan.frame)) {
-//                        [_delegate movedFan:fan toTableau:i];
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
+    }    
 
     [self computeCardLayout];
 }
@@ -370,25 +330,6 @@
 //- (void)drawRect:(CGRect)rect
 //{
 //    // Drawing code
-//    // Stock Image
-//    [bottomCard drawInRect:CGRectMake(MARGIN, MARGIN, _w, _h)];
-//    
-//    CGFloat wasteX = MARGIN + _w + BUFFER_WIDTH;
-//    CGFloat wasteY = MARGIN;
-//    // Waste Image
-//    [bottomCard drawInRect:CGRectMake(wasteX, wasteY, _w, _h)];
-//    
-//    CGFloat tableauY = MARGIN + _h + _s;
-//    for (int i = 0; i < NUM_TABLEAUS; i++) {
-//        CGFloat tableauX = MARGIN + (i*_w) + (i*BUFFER_WIDTH*2) - BUFFER_WIDTH;
-//        [bottomCard drawInRect:CGRectMake(tableauX, tableauY, _w, _h)];
-//    }
-//    
-//    CGFloat foundationY = MARGIN;
-//    for (int i = 0; i < NUM_FOUNDATIONS; i++) {
-//        CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + (i*BUFFER_WIDTH*2) - BUFFER_WIDTH;
-//        [bottomCard drawInRect:CGRectMake(foundationX, foundationY, _w, _h)];
-//    }
 //}
 
 @end

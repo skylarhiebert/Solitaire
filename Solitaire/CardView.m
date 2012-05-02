@@ -54,7 +54,6 @@
     if (nil == _card || _card.faceUp)
         [self.cardImage drawInRect:rect];
     else {
-        NSLog(@"drawingFaceUp:%@", _card);
         [[CardView backImage] drawInRect:rect];
     }
 }
