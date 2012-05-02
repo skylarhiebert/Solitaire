@@ -137,13 +137,12 @@
     return fan;
 }
 
-// NEED TO FIX THIS FUNCTION!!!!
 - (BOOL)canDropCard:(Card *)card onFoundation:(int)i {
     // Empty Foundation && card == ace
     if ( [card rank] == ACE && [foundation_[i] count] == 0 )
         return YES;
     // Card 1 greater than foundation card && suits match
-    if ( [card suit] == [[foundation_[i] lastObject] suit] && [card hash] + 1 == [[foundation_[i] lastObject] hash] )
+    if ( [card suit] == [[foundation_[i] lastObject] suit] && [card rank] - 1 == [[foundation_[i] lastObject] rank] )
         return YES;
     return NO;
 }
@@ -152,8 +151,8 @@
     NSMutableArray *stack = (NSMutableArray *) [self stackWithCard:card];
     [foundation_[i] addObject:card]; // Move to foundation
     [stack removeObject:card]; // Remove from stack
-    if ([stack count] > 0)
-        ((Card *) [stack lastObject]).faceUp = YES;
+//    if ([stack count] > 0)
+//        ((Card *) [stack lastObject]).faceUp = YES;
 }
 
 - (BOOL)canDropCard:(Card *)card onTableau:(int)i {
@@ -161,8 +160,7 @@
     if ( [card rank] == KING && [tableau_[i] count] == 0 )
         return YES;
     // Card is one less than last tableau card and suits do not match
-    NSLog(@"card hash:%i tabHash:%i", [card hash], [[tableau_[i] lastObject] hash]);
-    if ( ![card isSameColor:[tableau_[i] lastObject]] && [card hash] - 1 == [[tableau_[i] lastObject] hash] ) 
+    if ( ![card isSameColor:[tableau_[i] lastObject]] && [card rank] + 1 == [[tableau_[i] lastObject] rank] ) 
         return YES;
     return NO;
 }
@@ -181,7 +179,7 @@
 
 - (void)didDropFan:(NSArray *)cards onTableau:(int)i {
     // Remove fan from old tableau
-    NSMutableArray *oldTab =  (NSMutableArray *) [self tableauWithCard:[cards objectAtIndex:0]];
+    NSMutableArray *oldTab =  (NSMutableArray *) [self stackWithCard:[cards objectAtIndex:0]];
     [oldTab removeObjectsInArray:cards];
      
     // Add fan to new tableau

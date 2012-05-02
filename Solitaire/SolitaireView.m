@@ -225,7 +225,8 @@
     
     CGFloat foundationY = MARGIN;
     for (int i = 0; i < NUM_FOUNDATIONS; i++) {
-        CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + ((i+DIFF_TAB_FOUND+2)*_d); 
+//        CGFloat foundationX = MARGIN + ((i+DIFF_TAB_FOUND)*_w) + ((i+DIFF_TAB_FOUND+2)*_d);
+        CGFloat foundationX = self.bounds.size.width - MARGIN - (i*(BUFFER_WIDTH)) - ((i+1)*_w);
         for (Card *c in [_game foundation:i]) {
             cv = [cards objectForKey:c];
             cv.frame = CGRectMake(foundationX, foundationY, _w, _h);
@@ -237,15 +238,15 @@
 #pragma mark Touch Events
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView {
-    if ([_game.stock containsObject:[cardView card]] || cardView == bottomStock ) {
-        [_delegate moveStockToWaste];
-        [[cards objectForKey:[_game.waste lastObject]] setNeedsDisplay]; // Redraw new waste card
-        [[cards objectForKey:[_game.stock lastObject]] setNeedsDisplay]; // Redraw top of Stock
-        [self computeCardLayout];
-    } 
     touchStartPoint = [[touches anyObject] locationInView:self];
     startCenter = cardView.center;
     
+    Card *c = [cardView card];
+    if ([_game.stock containsObject:c] || cardView == bottomStock ) {
+        [_delegate moveStockToWaste];
+        [[cards objectForKey:[_game.waste lastObject]] setNeedsDisplay]; // Redraw new waste card
+        [[cards objectForKey:[_game.stock lastObject]] setNeedsDisplay]; // Redraw top of Stock
+    }    
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView {
@@ -272,11 +273,17 @@
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event withCardView:(CardView *)cardView  {
-    NSLog(@"touchesEnded: withEvent: withCardView:");
 //    CGPoint touchPoint = [[touches anyObject] locationInView:self];
     Card *c = [cardView card];
-    NSArray *fan = [_game fanBeginningWithCard:c];
     
+    if (!c.faceUp) {
+        if ([_delegate flipCard:c]) {
+            [[cards objectForKey:c] setNeedsDisplay];
+            return; // Break early 'cause we're just flipping
+        }
+    }
+    
+    NSArray *fan = [_game fanBeginningWithCard:c];
     CGFloat fanHeight = _h + [fan count] * (_f - 1);
     CGRect fanRect = CGRectMake(cardView.frame.origin.x, cardView.frame.origin.y, _w, fanHeight);
     
@@ -284,7 +291,6 @@
         for (int i = 0; i < NUM_FOUNDATIONS; i++) { // Iterate through foundations
             CardView *cvFound = bottomFoundations[i];
             if ( CGRectIntersectsRect(cvFound.frame, fanRect) ) {// See if foundation intersects with card
-                NSLog(@"movedToFound:%@", c);
                 [_delegate movedCard:[cardView card] toFoundation:i]; // Move card
             }
         }
@@ -294,10 +300,12 @@
             CardView *cvTab = [cards objectForKey:[tab lastObject]];
             if ( cvTab == [cards objectForKey:[fan lastObject]] ) continue; // If touched CardView == lastCardView in Tableau
             
-            CGFloat tabHeight = _h + [tab count] * (_f - 1);
+            if ( [tab count] == 0 ) 
+                cvTab = bottomTableaux[i]; // Empty tableau
+            
+            CGFloat tabHeight = _h + [tab count] * (_f - 1);               
             CGRect tabRect = CGRectMake(cvTab.frame.origin.x, cvTab.frame.origin.y, _w, tabHeight);
             if ( CGRectIntersectsRect(tabRect, fanRect) ) {
-                NSLog(@"movedFan:%@", c);
                 [_delegate movedFan:fan toTableau:i];
             }
         }

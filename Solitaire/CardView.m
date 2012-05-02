@@ -60,7 +60,6 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"CARDVIEW touchesBegan: withEvent:");
     SolitaireView *parentView = (SolitaireView *) [self superview];
     [parentView touchesBegan:touches withEvent:event withCardView:self];
 }

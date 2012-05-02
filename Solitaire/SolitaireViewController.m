@@ -54,11 +54,8 @@
 }
 
 -(void)movedFan:(NSArray *)f toTableau:(uint)t {
-    NSLog(@"movedFan:%@ toTableau:%i", f, t);
-    if ([_game canDropFan:f onTableau:t]) {
-        NSLog(@"canDropFan");
+    if ([_game canDropFan:f onTableau:t]) 
         [_game didDropFan:f onTableau:t];
-    }
 }
 
 -(void)movedCard:(Card *)c toFoundation:(uint)f {
@@ -71,6 +68,15 @@
         [_game didDealCard];
     else 
         [_game collectWasteCardsIntoStock];
+}
+
+- (BOOL)flipCard:(Card *)c
+{
+    if ([_game canFlipCard:c]) {
+        [_game didFlipCard:c];
+        return YES;
+    }
+    return NO;
 }
 
 @end

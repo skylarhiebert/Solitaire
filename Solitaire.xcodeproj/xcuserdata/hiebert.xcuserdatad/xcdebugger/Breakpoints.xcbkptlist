@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Solitaire/Solitaire.m"
-         timestampString = "357517794.533779"
+         timestampString = "357669005.020276"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "216"
-         endingLineNumber = "216"
+         startingLineNumber = "214"
+         endingLineNumber = "214"
          landmarkName = "-didDealCard"
          landmarkType = "5">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Solitaire/Solitaire.m"
-         timestampString = "357517381.725344"
+         timestampString = "357667876.707873"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "141"
-         endingLineNumber = "141"
+         startingLineNumber = "140"
+         endingLineNumber = "140"
          landmarkName = "-canDropCard:onFoundation:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Solitaire/Solitaire.m"
-         timestampString = "357517402.690998"
+         timestampString = "357667876.707873"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "159"
-         endingLineNumber = "159"
+         startingLineNumber = "158"
+         endingLineNumber = "158"
          landmarkName = "-canDropCard:onTableau:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,12 +60,77 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Solitaire/Solitaire.m"
-         timestampString = "357517438.690397"
+         timestampString = "357667876.707873"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "151"
-         endingLineNumber = "151"
+         startingLineNumber = "150"
+         endingLineNumber = "150"
          landmarkName = "-didDropCard:onFoundation:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Solitaire/Solitaire.m"
+         timestampString = "357668914.170141"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "169"
+         endingLineNumber = "169"
+         landmarkName = "-didDropCard:onTableau:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Solitaire/SolitaireView.m"
+         timestampString = "357669946.867027"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "279"
+         endingLineNumber = "279"
+         landmarkName = "-touchesEnded:withEvent:withCardView:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Solitaire/Solitaire.m"
+         timestampString = "357670326.897492"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "160"
+         endingLineNumber = "160"
+         landmarkName = "-canDropCard:onTableau:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Solitaire/Solitaire.m"
+         timestampString = "357670363.49712"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "177"
+         endingLineNumber = "177"
+         landmarkName = "-canDropFan:onTableau:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Solitaire/SolitaireView.m"
+         timestampString = "357671243.120452"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "308"
+         endingLineNumber = "308"
+         landmarkName = "-touchesEnded:withEvent:withCardView:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
